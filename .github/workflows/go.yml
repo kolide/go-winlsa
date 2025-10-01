@@ -54,7 +54,7 @@ jobs:
         key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
         enableCrossOsArchive: true
 
-    - name: Short Test
+    - name: Run tests
       shell: bash
       run: go test -race -cover -coverprofile=coverage.out -short -timeout 10m ./...
 
