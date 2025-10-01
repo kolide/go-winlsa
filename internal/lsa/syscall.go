@@ -33,7 +33,7 @@ func LsaFreeReturnBuffer(buffer uintptr) error {
 	return LsaNtStatusToWinError(r0)
 }
 func LsaNtStatusToWinError(ntstatus uintptr) error {
-	r0, _, errno := syscall.SyscallN(procLsaNtStatusToWinError.Addr(), 1, ntstatus)
+	r0, _, errno := syscall.SyscallN(procLsaNtStatusToWinError.Addr(), ntstatus)
 	switch errno { // nolint:exhaustive
 	case windows.ERROR_SUCCESS:
 		if r0 == 0 {
