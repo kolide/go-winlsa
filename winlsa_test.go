@@ -19,6 +19,6 @@ func TestGetLogonSessions_GetLogonSessionData(t *testing.T) {
 	for _, luid := range luids {
 		sessionData, err := GetLogonSessionData(&luid)
 		require.NoError(t, err, "getting logon session data")
-		require.NotNil(t, sessionData.Sid, "session data missing SID", fmt.Sprintf("%+v", sessionData))
+		require.Greater(t, sessionData.LogonTime.Unix(), 0, "logon time not set in session data", fmt.Sprintf("%+v", sessionData))
 	}
 }
