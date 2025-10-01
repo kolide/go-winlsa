@@ -34,7 +34,7 @@ func LsaFreeReturnBuffer(buffer uintptr) error {
 }
 func LsaNtStatusToWinError(ntstatus uintptr) error {
 	r0, _, errno := syscall.SyscallN(procLsaNtStatusToWinError.Addr(), 1, ntstatus)
-	switch errno {
+	switch errno { // nolint:exhaustive
 	case windows.ERROR_SUCCESS:
 		if r0 == 0 {
 			return nil
