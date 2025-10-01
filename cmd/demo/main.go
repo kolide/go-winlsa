@@ -1,10 +1,13 @@
+//go:build windows
+// +build windows
+
 package main
 
 import (
 	"fmt"
 	"os"
 
-	. "github.com/carlpett/winlsa"
+	. "github.com/kolide/go-winlsa"
 )
 
 func main() {
