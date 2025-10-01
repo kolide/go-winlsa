@@ -21,19 +21,19 @@ var (
 )
 
 func LsaEnumerateLogonSessions(sessionCount *uint32, sessions *uintptr) error {
-	r0, _, _ := syscall.Syscall(procLsaEnumerateLogonSessions.Addr(), 2, uintptr(unsafe.Pointer(sessionCount)), uintptr(unsafe.Pointer(sessions)), 0)
+	r0, _, _ := syscall.SyscallN(procLsaEnumerateLogonSessions.Addr(), uintptr(unsafe.Pointer(sessionCount)), uintptr(unsafe.Pointer(sessions)))
 	return LsaNtStatusToWinError(r0)
 }
 func LsaGetLogonSessionData(luid *LUID, sessionData **SECURITY_LOGON_SESSION_DATA) error {
-	r0, _, _ := syscall.Syscall(procLsaGetLogonSessionData.Addr(), 2, uintptr(unsafe.Pointer(luid)), uintptr(unsafe.Pointer(sessionData)), 0)
+	r0, _, _ := syscall.SyscallN(procLsaGetLogonSessionData.Addr(), uintptr(unsafe.Pointer(luid)), uintptr(unsafe.Pointer(sessionData)))
 	return LsaNtStatusToWinError(r0)
 }
 func LsaFreeReturnBuffer(buffer uintptr) error {
-	r0, _, _ := syscall.Syscall(procLsaFreeReturnBuffer.Addr(), 1, buffer, 0, 0)
+	r0, _, _ := syscall.SyscallN(procLsaFreeReturnBuffer.Addr(), buffer)
 	return LsaNtStatusToWinError(r0)
 }
 func LsaNtStatusToWinError(ntstatus uintptr) error {
-	r0, _, errno := syscall.Syscall(procLsaNtStatusToWinError.Addr(), 1, ntstatus, 0, 0)
+	r0, _, errno := syscall.SyscallN(procLsaNtStatusToWinError.Addr(), 1, ntstatus)
 	switch errno {
 	case windows.ERROR_SUCCESS:
 		if r0 == 0 {
