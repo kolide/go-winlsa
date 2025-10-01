@@ -138,7 +138,7 @@ func stringFromLSAString(s lsa.LSA_UNICODE_STRING) string {
 		return ""
 	}
 	var data []uint16
-	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data))
+	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data)) //nolint:staticcheck
 	sh.Data = s.Buffer
 	sh.Len = int(s.Length)
 	sh.Cap = int(s.Length)
@@ -161,7 +161,7 @@ func GetLogonSessions() ([]LUID, error) {
 	}
 
 	var data []LUID
-	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data))
+	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data)) //nolint:staticcheck
 	sh.Data = buffer
 	sh.Len = int(cnt)
 	sh.Cap = int(cnt)
