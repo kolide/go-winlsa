@@ -1,3 +1,6 @@
+//go:build windows
+// +build windows
+
 package winlsa
 
 import (
@@ -7,9 +10,8 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/kolide/go-winlsa/internal/lsa"
 	"golang.org/x/sys/windows"
-
-	"github.com/carlpett/winlsa/internal/lsa"
 )
 
 // A LUID is a locally unique identifier guaranteed to be unique on the
@@ -58,7 +60,7 @@ const (
 	// https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-logonsession,
 	// LogonType=0 is "Used only by the System account."
 	LogonTypeSystem LogonType = iota
-	_ // LogonType=1 is not used
+	_                         // LogonType=1 is not used
 	LogonTypeInteractive
 	LogonTypeNetwork
 	LogonTypeBatch
@@ -136,7 +138,7 @@ func stringFromLSAString(s lsa.LSA_UNICODE_STRING) string {
 		return ""
 	}
 	var data []uint16
-	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data))
+	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data)) //nolint:staticcheck
 	sh.Data = s.Buffer
 	sh.Len = int(s.Length)
 	sh.Cap = int(s.Length)
@@ -159,7 +161,7 @@ func GetLogonSessions() ([]LUID, error) {
 	}
 
 	var data []LUID
-	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data))
+	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data)) //nolint:staticcheck
 	sh.Data = buffer
 	sh.Len = int(cnt)
 	sh.Cap = int(cnt)
