@@ -23,12 +23,12 @@ jobs:
     steps:
     - name: Check out code
       id: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         fetch-depth: 1
 
     - name: Setup Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v7
       with:
         go-version-file: './go.mod'
         check-latest: true
@@ -41,14 +41,14 @@ jobs:
         echo "go-mod=$(go env GOMODCACHE)" >> "$GITHUB_OUTPUT"
 
     - name: cache restore - GOCACHE
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v6
       with:
         path: ${{ steps.go-cache-paths.outputs.go-build }}
         key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
         enableCrossOsArchive: true
 
     - name: cache restore - GOMODCACHE
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v6
       with:
         path: ${{ steps.go-cache-paths.outputs.go-mod }}
         key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
@@ -59,7 +59,7 @@ jobs:
       run: go test -race -cover -coverprofile=coverage.out -short -timeout 10m ./...
 
     - name: Upload coverage
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ runner.os }}-coverage.out
         path: ./coverage.out
